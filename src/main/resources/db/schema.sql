@@ -34,20 +34,59 @@ CREATE TABLE IF NOT EXISTS tblNhanVien (
   CONSTRAINT fk_nv_ch FOREIGN KEY (tblCuaHangid) REFERENCES tblCuaHang(id) ON DELETE SET NULL
 );
 
--- Khach hang (placeholder for next features)
+-- Khach hang
 CREATE TABLE IF NOT EXISTS tblKhachHang (
   id INT PRIMARY KEY AUTO_INCREMENT,
   cccd VARCHAR(255) UNIQUE,
-  ten VARCHAR(255),
-  sdt VARCHAR(255),
-  diaChi VARCHAR(255),
-  tblThanhVienid INT,
-  CONSTRAINT fk_kh_created_by_tv FOREIGN KEY (tblThanhVienid) REFERENCES tblThanhVien(id)
+  tblThanhVienid INT NOT NULL UNIQUE,
+  CONSTRAINT fk_kh_created_by_tv FOREIGN KEY (tblThanhVienid) REFERENCES tblThanhVien(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS tblHopDong (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  soHopDong VARCHAR(255) NOT NULL,
+  tongVay DECIMAL(19,2) NOT NULL,
+  mucTraTruoc DECIMAL(19,2),
+  laiSuat DECIMAL(5,2),
+  duNoConLai DECIMAL(19,2),
+  ngayKy DATE,
+  trangThai VARCHAR(255),
+  tblKhachHangid INT NOT NULL,
+  tblNhanVienid INT,
+  CONSTRAINT fk_hd_khach FOREIGN KEY (tblKhachHangid) REFERENCES tblKhachHang(id) ON DELETE CASCADE,
+  CONSTRAINT fk_hd_nhanvien FOREIGN KEY (tblNhanVienid) REFERENCES tblNhanVien(id) ON DELETE SET NULL
 );
 
 -- Seed minimal data (optional): create one store
 INSERT INTO tblCuaHang (ten, diaChi, moTa)
 VALUES ('Cua hang Trung tam', '1 Nguyen Hue, Q1, HCM', 'Cua hang mac dinh')
 ON DUPLICATE KEY UPDATE ten = VALUES(ten);
+
+-- Sample customers (insert into ThanhVien then map to KhachHang)
+INSERT INTO tblThanhVien (username, password, ten, email, ngaySinh, diaChi, sdt)
+VALUES ('khach1', '$2a$10$Dow1Qxq8NQvZk90un0n0ue5H1ZiZsaAJ2bI7IuAvV38DSHLVQQP4.', 'Đào Ngọc Đức', 'duc@gmail.com', '2004-06-14', 'Đống Đa, Hà Nội', '0925346463')
+ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id);
+SET @tv_khach1_id = LAST_INSERT_ID();
+
+INSERT INTO tblKhachHang (cccd, tblThanhVienid)
+VALUES ('001204001256', @tv_khach1_id)
+ON DUPLICATE KEY UPDATE tblThanhVienid = VALUES(tblThanhVienid);
+SET @khachHang1 = (SELECT id FROM tblKhachHang WHERE cccd = '001204001256');
+
+INSERT INTO tblThanhVien (username, password, ten, email, ngaySinh, diaChi, sdt)
+VALUES ('khach2', '$2a$10$Dow1Qxq8NQvZk90un0n0ue5H1ZiZsaAJ2bI7IuAvV38DSHLVQQP4.', 'Đào Ngọc Quang', 'quangdn@gmail.com', '2002-01-19', 'Hoàng Mai, Hà Nội', '0911234444')
+ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id);
+SET @tv_khach2_id = LAST_INSERT_ID();
+
+INSERT INTO tblKhachHang (cccd, tblThanhVienid)
+VALUES ('001234001222', @tv_khach2_id)
+ON DUPLICATE KEY UPDATE tblThanhVienid = VALUES(tblThanhVienid);
+SET @khachHang2 = (SELECT id FROM tblKhachHang WHERE cccd = '001234001222');
+
+INSERT INTO tblHopDong (soHopDong, tongVay, mucTraTruoc, laiSuat, duNoConLai, ngayKy, trangThai, tblKhachHangid)
+VALUES
+('HD01', 20000000, 4000000, 1.7, 0, '2024-06-21', 'Đã hoàn thành', @khachHang1),
+('HD02', 100000000, 10000000, 2.2, 0, '2025-03-13', 'Đã hoàn thành', @khachHang1),
+('HD03', 50000000, 5000000, 0.5, 45000000, '2025-10-09', 'Còn nợ', @khachHang1);
 
 

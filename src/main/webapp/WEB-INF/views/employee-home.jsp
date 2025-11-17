@@ -73,6 +73,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <div class="header">HỆ THỐNG QUẢN LÝ BÁN HÀNG TRẢ GÓP</div>
     <div class="wrapper">
       <c:url value="/auth/logout" var="logoutUrl" />
+      <c:url value="/customer/search" var="customerUrl" />
       <div class="topbar">
         <div class="row">
           <div class="avatar">${initials}</div>
@@ -83,13 +84,31 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         </div>
       </div>
       <h2>Trang chủ nhân viên</h2>
-      <div class="center" style="margin-top: 12px">
-        <button
-          class="btn"
-          onclick="alert('Chức năng quản lý thông tin khách hàng sẽ được triển khai tiếp theo.')"
+      <div class="center" style="margin-top: 20px">
+        <div
+          style="
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+          "
         >
-          Quản lý thông tin khách hàng
-        </button>
+          <button class="btn" onclick="window.location='${customerUrl}'">
+            Quản lý thông tin khách hàng
+          </button>
+          <button
+            class="btn"
+            onclick="alert('Ký hợp đồng trả góp sẽ được phát triển sau.')"
+          >
+            Ký hợp đồng trả góp
+          </button>
+          <button
+            class="btn"
+            onclick="alert('Thống kê khách hàng theo dư nợ còn lại sẽ được phát triển sau.')"
+          >
+            Thống kê khách hàng theo dư nợ còn lại
+          </button>
+        </div>
       </div>
     </div>
   </body>

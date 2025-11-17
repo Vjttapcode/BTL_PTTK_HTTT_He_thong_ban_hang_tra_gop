@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.htbh.model.ThanhVien;
 
-@WebFilter(urlPatterns = {"/employee/*"})
+@WebFilter(urlPatterns = {"/employee/*", "/customer/*"})
 public class AuthFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
