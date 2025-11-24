@@ -29,15 +29,34 @@ public class ThanhVienDAO {
 		return null;
 	}
 
-	public ThanhVien create(String username, String rawPassword, String ten, String email) {
-		final String checkSql = "SELECT id FROM tblThanhVien WHERE username = ?";
+	public ThanhVien create(ThanhVien thanhVien) {
+		if (thanhVien == null) {
+			throw new IllegalArgumentException("ThanhVien khong duoc null");
+		}
+		final String username = thanhVien.getUsername();
+		final String rawPassword = thanhVien.getRawPassword();
+		final String ten = thanhVien.getTen();
+		final String email = thanhVien.getEmail();
+
+		final String checkUsernameSql = "SELECT id FROM tblThanhVien WHERE username = ?";
+		final String checkEmailSql = "SELECT id FROM tblThanhVien WHERE email = ?";
 		final String insertSql = "INSERT INTO tblThanhVien(username, password, ten, email) VALUES(?,?,?,?)";
 		try (Connection con = ConnectionFactory.getConnection()) {
-			try (PreparedStatement c = con.prepareStatement(checkSql)) {
+			try (PreparedStatement c = con.prepareStatement(checkUsernameSql)) {
 				c.setString(1, username);
 				try (ResultSet r = c.executeQuery()) {
 					if (r.next()) {
 						throw new IllegalStateException("Username da ton tai");
+					}
+				}
+			}
+			if (email != null && !email.isEmpty()) {
+				try (PreparedStatement c2 = con.prepareStatement(checkEmailSql)) {
+					c2.setString(1, email);
+					try (ResultSet r2 = c2.executeQuery()) {
+						if (r2.next()) {
+							throw new IllegalStateException("Email da ton tai");
+						}
 					}
 				}
 			}
@@ -51,13 +70,13 @@ public class ThanhVienDAO {
 				try (ResultSet rs = ps.getGeneratedKeys()) {
 					if (rs.next()) {
 						int id = rs.getInt(1);
-						ThanhVien tv = new ThanhVien();
-						tv.setId(id);
-						tv.setUsername(username);
-						tv.setPasswordHash(hash);
-						tv.setTen(ten);
-						tv.setEmail(email);
-						return tv;
+						ThanhVien saved = new ThanhVien();
+						saved.setId(id);
+						saved.setUsername(username);
+						saved.setPasswordHash(hash);
+						saved.setTen(ten);
+						saved.setEmail(email);
+						return saved;
 					}
 				}
 			}

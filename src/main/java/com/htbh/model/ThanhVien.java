@@ -6,6 +6,7 @@ public class ThanhVien {
 	private Integer id;
 	private String username;
 	private String passwordHash;
+	private transient String rawPassword;
 	private String ten;
 	private String email;
 	private Date ngaySinh;
@@ -20,6 +21,9 @@ public class ThanhVien {
 
 	public String getPasswordHash() { return passwordHash; }
 	public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
+	public String getRawPassword() { return rawPassword; }
+	public void setRawPassword(String rawPassword) { this.rawPassword = rawPassword; }
 
 	public String getTen() { return ten; }
 	public void setTen(String ten) { this.ten = ten; }

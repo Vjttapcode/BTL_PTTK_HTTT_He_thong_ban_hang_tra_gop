@@ -85,7 +85,12 @@ public class AuthServlet extends HttpServlet {
 			return;
 		}
 		try {
-			ThanhVien tv = thanhVienDAO.create(username, password, fullName, email);
+			ThanhVien tvPayload = new ThanhVien();
+			tvPayload.setUsername(username);
+			tvPayload.setRawPassword(password);
+			tvPayload.setTen(fullName);
+			tvPayload.setEmail(email);
+			ThanhVien tv = thanhVienDAO.create(tvPayload);
 			nhanVienDAO.createForThanhVien(tv.getId(), chiNhanh, null);
 			req.setAttribute("success", "Dang ky thanh cong. Vui long dang nhap.");
 			req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
