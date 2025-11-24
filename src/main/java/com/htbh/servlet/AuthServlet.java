@@ -84,12 +84,28 @@ public class AuthServlet extends HttpServlet {
 			req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
 			return;
 		}
+		
+		// Kiểm tra định dạng email (nếu email không rỗng)
+		if (email != null && !email.trim().isEmpty()) {
+			if (!isValidEmail(email)) {
+				req.setAttribute("error", "Email khong dung dinh dang");
+				req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
+				return;
+			}
+		}
+		
 		try {
-			ThanhVien tv = thanhVienDAO.create(username, password, fullName, email);
+			ThanhVien tv = new ThanhVien();
+			tv.setUsername(username);
+			tv.setRawPassword(password);
+			tv.setTen(fullName);
+			tv.setEmail(email);
+			
+			tv = thanhVienDAO.create(tv);
 			nhanVienDAO.createForThanhVien(tv.getId(), chiNhanh, null);
 			req.setAttribute("success", "Dang ky thanh cong. Vui long dang nhap.");
 			req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
-		} catch (IllegalStateException e) {
+		} catch (IllegalStateException | IllegalArgumentException e) {
 			req.setAttribute("error", e.getMessage());
 			req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
 		}
@@ -112,6 +128,23 @@ public class AuthServlet extends HttpServlet {
 
 	private boolean isBlank(String s) {
 		return s == null || s.trim().isEmpty();
+	}
+
+	/**
+	 * Kiểm tra định dạng email chuẩn
+	 * @param email Email cần kiểm tra
+	 * @return true nếu email hợp lệ, false nếu không hợp lệ
+	 */
+	private boolean isValidEmail(String email) {
+		if (email == null || email.trim().isEmpty()) {
+			return false;
+		}
+		// Pattern chuẩn cho email: local@domain
+		// - Local part: chứa chữ, số, dấu chấm, gạch dưới, dấu trừ, dấu cộng
+		// - Domain part: chứa chữ, số, dấu chấm, dấu trừ
+		// - Phải có ít nhất một dấu chấm trong domain và TLD có ít nhất 2 ký tự
+		String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+		return email.trim().matches(emailPattern);
 	}
 }
 

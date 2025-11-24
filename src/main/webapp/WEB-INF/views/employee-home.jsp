@@ -74,6 +74,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <div class="wrapper">
       <c:url value="/auth/logout" var="logoutUrl" />
       <c:url value="/customer/search" var="customerUrl" />
+      <c:url value="/contracts/start" var="contractUrl" />
       <div class="topbar">
         <div class="row">
           <div class="avatar">${initials}</div>
@@ -98,7 +99,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           </button>
           <button
             class="btn"
-            onclick="alert('Ký hợp đồng trả góp sẽ được phát triển sau.')"
+            onclick="window.location='${contractUrl}'"
           >
             Ký hợp đồng trả góp
           </button>

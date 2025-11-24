@@ -12,6 +12,10 @@ public class HopDong {
 	private BigDecimal duNoConLai;
 	private Date ngayKy;
 	private String trangThai;
+	private Integer khachHangId;
+	private Integer nhanVienId;
+	private Integer sanPhamId;
+	private Integer doiTacId;
 
 	public Integer getId() { return id; }
 	public void setId(Integer id) { this.id = id; }
@@ -36,6 +40,18 @@ public class HopDong {
 
 	public String getTrangThai() { return trangThai; }
 	public void setTrangThai(String trangThai) { this.trangThai = trangThai; }
+
+	public Integer getKhachHangId() { return khachHangId; }
+	public void setKhachHangId(Integer khachHangId) { this.khachHangId = khachHangId; }
+
+	public Integer getNhanVienId() { return nhanVienId; }
+	public void setNhanVienId(Integer nhanVienId) { this.nhanVienId = nhanVienId; }
+
+	public Integer getSanPhamId() { return sanPhamId; }
+	public void setSanPhamId(Integer sanPhamId) { this.sanPhamId = sanPhamId; }
+
+	public Integer getDoiTacId() { return doiTacId; }
+	public void setDoiTacId(Integer doiTacId) { this.doiTacId = doiTacId; }
 }
 
 

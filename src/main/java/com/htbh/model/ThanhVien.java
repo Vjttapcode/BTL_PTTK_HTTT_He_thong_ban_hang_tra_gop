@@ -35,6 +35,12 @@ public class ThanhVien {
 
 	public String getSdt() { return sdt; }
 	public void setSdt(String sdt) { this.sdt = sdt; }
+
+	// Trường tạm thời để lưu mật khẩu chưa hash (chỉ dùng khi tạo mới)
+	private transient String rawPassword;
+
+	public String getRawPassword() { return rawPassword; }
+	public void setRawPassword(String rawPassword) { this.rawPassword = rawPassword; }
 }
 
 

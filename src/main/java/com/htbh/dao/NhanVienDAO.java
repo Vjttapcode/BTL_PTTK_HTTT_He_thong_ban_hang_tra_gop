@@ -34,6 +34,28 @@ public class NhanVienDAO {
 		}
 		return null;
 	}
+
+	public NhanVien findByThanhVienId(int thanhVienId) {
+		String sql = "SELECT id, chiNhanh, tblThanhVienid, tblCuaHangid FROM tblNhanVien WHERE tblThanhVienid = ?";
+		try (Connection con = ConnectionFactory.getConnection();
+		     PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, thanhVienId);
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					NhanVien nv = new NhanVien();
+					nv.setId(rs.getInt("id"));
+					nv.setChiNhanh(rs.getString("chiNhanh"));
+					nv.setThanhVienId(rs.getInt("tblThanhVienid"));
+					int cuaHangId = rs.getInt("tblCuaHangid");
+					if (!rs.wasNull()) nv.setCuaHangId(cuaHangId);
+					return nv;
+				}
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return null;
+	}
 }
 
 

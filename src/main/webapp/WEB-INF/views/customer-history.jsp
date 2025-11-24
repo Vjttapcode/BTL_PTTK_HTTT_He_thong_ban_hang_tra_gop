@@ -68,6 +68,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
   <body>
     <div class="wrapper">
       <c:url value="/customer/search" var="searchUrl" />
+      <c:url value="/customer/detail" var="detailUrl" />
       <h1>Lịch sử giao dịch khách hàng</h1>
       <c:if test="${empty customer}">
         <p>Không tìm thấy dữ liệu khách hàng.</p>
@@ -127,7 +128,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         <button
           class="btn"
           type="button"
-          onclick="window.location='${searchUrl}'"
+          onclick="window.location='${detailUrl}?id=${customer.id}'"
         >
           Return
         </button>
