@@ -26,8 +26,8 @@ import com.htbh.model.SanPham;
 import com.htbh.model.ThanhVien;
 import com.htbh.service.ContractService;
 
-@WebServlet(name = "ContractWizardServlet", urlPatterns = {"/contracts/*"})
-public class ContractWizardServlet extends HttpServlet {
+@WebServlet(name = "ContractServlet", urlPatterns = {"/contracts/*"})
+public class ContractServlet extends HttpServlet {
 	private static final String SESSION_KEY = "CONTRACT_DRAFT";
 	private static final String FLASH_KEY = "CONTRACT_FLASH";
 
