@@ -1,5 +1,6 @@
 package com.htbh.model;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 public class KhachHang {
@@ -7,6 +8,8 @@ public class KhachHang {
 	private Integer thanhVienId;
 	private String cccd;
 	private ThanhVien profile;
+	// Trường tạm thời để lưu tổng dư nợ (chỉ dùng cho thống kê)
+	private transient BigDecimal tongDuNo;
 
 	public Integer getId() { return id; }
 	public void setId(Integer id) { this.id = id; }
@@ -38,5 +41,13 @@ public class KhachHang {
 
 	public String getDiaChi() {
 		return profile != null ? profile.getDiaChi() : null;
+	}
+	
+	public BigDecimal getTongDuNo() {
+		return tongDuNo;
+	}
+	
+	public void setTongDuNo(BigDecimal tongDuNo) {
+		this.tongDuNo = tongDuNo;
 	}
 }

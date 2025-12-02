@@ -103,9 +103,10 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           >
             Ký hợp đồng trả góp
           </button>
+          <c:url value="/debt-statistics/report" var="debtStatsUrl" />
           <button
             class="btn"
-            onclick="alert('Thống kê khách hàng theo dư nợ còn lại sẽ được phát triển sau.')"
+            onclick="window.location='${debtStatsUrl}'"
           >
             Thống kê khách hàng theo dư nợ còn lại
           </button>

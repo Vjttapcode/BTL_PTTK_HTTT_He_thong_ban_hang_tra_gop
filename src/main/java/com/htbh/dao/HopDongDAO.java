@@ -10,8 +10,22 @@ import java.util.List;
 
 import com.htbh.config.ConnectionFactory;
 import com.htbh.model.HopDong;
+import com.htbh.model.KhachHang;
 
 public class HopDongDAO {
+	/**
+	 * Lấy danh sách hợp đồng theo khách hàng (đóng gói đối tượng - OOP)
+	 * @param kh Đối tượng KhachHang
+	 * @return Mảng HopDong[]
+	 */
+	public HopDong[] getHopDongByKhachHang(KhachHang kh) {
+		if (kh == null || kh.getId() == null) {
+			return new HopDong[0];
+		}
+		List<HopDong> list = findByKhachHangId(kh.getId());
+		return list.toArray(new HopDong[0]);
+	}
+	
 	public List<HopDong> findByKhachHangId(int khachHangId) {
 		List<HopDong> list = new ArrayList<>();
 		String sql = "SELECT * FROM tblHopDong WHERE tblKhachHangid = ? ORDER BY ngayKy DESC";
